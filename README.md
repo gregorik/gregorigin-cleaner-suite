@@ -1,4 +1,4 @@
-# GregOrigin Suite
+# GregOrigin Cleaner Suite
 
 ![Platform](https://img.shields.io/badge/Platform-Windows%2011-0078D7)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -6,7 +6,7 @@
 ![Adware](https://img.shields.io/badge/Adware-None-red)
 
 **A minimalist, native system utility for Windows 11.**  
-GregOrigin Suite is a "Glass Box" alternative to opaque system cleaners. It combines bulk uninstallation, safe system cleaning, and software updates into a single, lightweight dashboard—powered entirely by native Windows APIs.
+GregOrigin Cleaner Suite is a "Glass Box" alternative to opaque system cleaners. It combines bulk uninstallation, safe system cleaning, and software updates into a single, lightweight dashboard—powered entirely by native Windows APIs.
 
 [Visit Website](https://gregorigin.com) • [Download Latest Release](#download) • [Report Bug](../../issues)
 
@@ -16,7 +16,7 @@ GregOrigin Suite is a "Glass Box" alternative to opaque system cleaners. It comb
 
 Most system utilities (CCleaner, IObit, etc.) are "Black Boxes." You don't know exactly what files they delete or what telemetry they send. Others (Bulk Crap Uninstaller) are powerful but overwhelming for general users.
 
-**GregOrigin Suite is different:**
+**GregOrigin Cleaner Suite is different:**
 *   **100% Native:** Uses standard PowerShell and `.NET` commands. No proprietary drivers.
 *   **Safe by Design:** We do not touch the Registry for "cleaning." We do not vacuum SQLite databases. We only remove cache files that are safe to delete.
 *   **Winget Integration:** Uses Microsoft's official package manager to fetch safe updates.
@@ -46,7 +46,6 @@ Evades the weaknesses of BleachBit and CCleaner.
 
 ## 📸 Screenshots
 
-*(Place a screenshot of the Dashboard here, preferably showing the Blue UI)*
 
 ---
 
