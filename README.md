@@ -5,6 +5,8 @@
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 ![Adware](https://img.shields.io/badge/Adware-None-red)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C616ULD4)
+
 **A minimalist, native system utility for Windows 11.**  
 GregOrigin Cleaner Suite is a "Glass Box" alternative to opaque system cleaners. It combines bulk uninstallation, safe system cleaning, and software updates into a single, lightweight dashboard—powered entirely by native Windows APIs.
 
