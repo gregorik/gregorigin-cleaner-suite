@@ -14,6 +14,8 @@ GregOrigin Cleaner Suite is a "Glass Box" alternative to opaque system cleaners.
 
 [Visit Website](https://gregorigin.com) • [Download Latest Release](#download) • [Report Bug](../../issues)
 
+Read manual at https://gregorigin.gitbook.io/cleaner-suite/
+
 ---
 
 ## 🚀 Why GregOrigin Suite?
