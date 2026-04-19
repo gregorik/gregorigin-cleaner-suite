@@ -1,0 +1,1926 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GregOrigin Cleaner Suite Pro Manual</title>
+  <meta name="description" content="User manual for GregOrigin Cleaner Suite Pro. Learn how to safely clean, optimize, update, recover, and audit Windows maintenance actions.">
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #eaf8ff;
+      --muted: #9bb8c8;
+      --soft: #c8efff;
+      --cyan: #11d9ff;
+      --cyan-2: #50f5ff;
+      --blue: #005b9a;
+      --deep: #031322;
+      --nav: #061a2b;
+      --panel: #082238;
+      --panel-2: #0b2a43;
+      --line: rgba(80, 245, 255, 0.18);
+      --line-strong: rgba(80, 245, 255, 0.42);
+      --good: #4de69d;
+      --warn: #ffd166;
+      --danger: #ff6b6b;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      --radius: 8px;
+      --sidebar: 312px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 24px;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 78% 8%, rgba(17, 217, 255, 0.16), transparent 26rem),
+        linear-gradient(145deg, #020812 0%, #041624 44%, #061a2b 100%);
+      color: var(--ink);
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(80, 245, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(80, 245, 255, 0.035) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, black, transparent 68%);
+      z-index: -1;
+    }
+
+    a {
+      color: var(--cyan-2);
+      text-decoration: none;
+    }
+
+    a:hover,
+    a:focus-visible {
+      text-decoration: underline;
+    }
+
+    code,
+    kbd {
+      background: rgba(80, 245, 255, 0.1);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--soft);
+      font-family: Consolas, "Cascadia Mono", monospace;
+      padding: 0.12rem 0.35rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: var(--sidebar) minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: linear-gradient(180deg, rgba(3, 19, 34, 0.98), rgba(6, 26, 43, 0.96));
+      border-right: 1px solid var(--line);
+      padding: 24px 18px 20px;
+      box-shadow: 12px 0 40px rgba(0, 0, 0, 0.22);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 6px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      color: var(--cyan-2);
+      font-weight: 800;
+      letter-spacing: 0;
+      background: linear-gradient(145deg, rgba(17, 217, 255, 0.14), rgba(0, 91, 154, 0.18));
+    }
+
+    .brand-name {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .brand-subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .site-link {
+      display: block;
+      margin: 16px 6px 18px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(17, 217, 255, 0.08);
+      font-weight: 700;
+    }
+
+    .nav-title {
+      margin: 22px 8px 8px;
+      color: var(--muted);
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .toc {
+      display: grid;
+      gap: 4px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .toc a {
+      display: block;
+      padding: 8px 10px;
+      border-left: 3px solid transparent;
+      border-radius: 6px;
+      color: #d9f5ff;
+      font-size: 0.92rem;
+      text-decoration: none;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .toc a:hover,
+    .toc a:focus-visible {
+      background: rgba(80, 245, 255, 0.09);
+      border-left-color: rgba(80, 245, 255, 0.48);
+      transform: translateX(2px);
+      text-decoration: none;
+    }
+
+    .toc a.active {
+      background: linear-gradient(90deg, rgba(17, 217, 255, 0.18), rgba(17, 217, 255, 0.04));
+      border-left-color: var(--cyan);
+      color: white;
+      font-weight: 800;
+    }
+
+    .sidebar-note {
+      margin: 22px 6px 0;
+      padding: 12px;
+      border: 1px solid rgba(77, 230, 157, 0.28);
+      border-radius: var(--radius);
+      color: #d8ffeb;
+      background: rgba(77, 230, 157, 0.08);
+      font-size: 0.82rem;
+    }
+
+    main {
+      min-width: 0;
+      padding: 0 34px 72px;
+    }
+
+    .hero {
+      width: calc(100% + 68px);
+      margin-left: -34px;
+      min-height: min(760px, 92svh);
+      display: grid;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(3, 19, 34, 0.98) 0%, rgba(3, 19, 34, 0.84) 44%, rgba(3, 19, 34, 0.28) 100%),
+        radial-gradient(circle at 80% 42%, rgba(17, 217, 255, 0.24), transparent 20rem),
+        linear-gradient(145deg, #031322, #0b2a43);
+    }
+
+    .hero-inner {
+      width: min(var(--max), calc(100% - 64px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.72fr);
+      align-items: center;
+      gap: 42px;
+      padding: 64px 0 58px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--cyan-2);
+      font-size: 0.86rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 42px;
+      height: 2px;
+      background: var(--cyan);
+      box-shadow: 0 0 18px rgba(17, 217, 255, 0.72);
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(2.65rem, 5vw, 6.4rem);
+      font-weight: 900;
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: clamp(1.95rem, 3.4vw, 3.8rem);
+      color: white;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 1.35rem;
+      color: var(--soft);
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 22px 0 0;
+      color: var(--soft);
+      font-size: clamp(1rem, 1.7vw, 1.3rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line-strong);
+      color: #00131b;
+      background: var(--cyan);
+      font-weight: 900;
+      text-decoration: none;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      box-shadow: 0 0 22px rgba(17, 217, 255, 0.35);
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    .button.secondary {
+      color: var(--ink);
+      background: transparent;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 520px;
+    }
+
+    .orbit {
+      position: absolute;
+      inset: 30px 0 10px;
+      border: 1px solid rgba(80, 245, 255, 0.22);
+      border-radius: 50%;
+      animation: slowSpin 28s linear infinite;
+    }
+
+    .orbit::before,
+    .orbit::after {
+      content: "";
+      position: absolute;
+      inset: 10%;
+      border: 1px solid rgba(80, 245, 255, 0.14);
+      border-radius: 50%;
+    }
+
+    .orbit::after {
+      inset: 23%;
+    }
+
+    .console {
+      position: absolute;
+      left: 10%;
+      right: 3%;
+      top: 88px;
+      min-height: 356px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: rgba(5, 23, 38, 0.92);
+      box-shadow: var(--shadow), 0 0 42px rgba(17, 217, 255, 0.12);
+      overflow: hidden;
+      animation: riseIn 700ms ease both 150ms;
+    }
+
+    .console-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(80, 245, 255, 0.07);
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--cyan);
+      opacity: 0.84;
+    }
+
+    .console-label {
+      color: var(--muted);
+      font-family: Consolas, "Cascadia Mono", monospace;
+      font-size: 0.76rem;
+    }
+
+    .scan-lines {
+      padding: 20px;
+    }
+
+    .scan-row {
+      display: grid;
+      grid-template-columns: 128px 1fr 72px;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+      font-family: Consolas, "Cascadia Mono", monospace;
+      font-size: 0.86rem;
+      color: var(--soft);
+    }
+
+    .bar {
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(80, 245, 255, 0.09);
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--good));
+      animation: fillBar 900ms ease both;
+    }
+
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: rgba(80, 245, 255, 0.05);
+    }
+
+    .metric strong {
+      display: block;
+      color: white;
+      font-size: 1.25rem;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .section {
+      width: min(var(--max), 100%);
+      margin: 0 auto;
+      padding: 78px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-intro {
+      max-width: 820px;
+      margin-bottom: 34px;
+    }
+
+    .section-intro p {
+      color: var(--soft);
+      font-size: 1.06rem;
+      margin: 0;
+    }
+
+    .two-col,
+    .three-col,
+    .four-col {
+      display: grid;
+      gap: 18px;
+    }
+
+    .two-col {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .three-col {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .four-col {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(11, 42, 67, 0.82), rgba(6, 26, 43, 0.72));
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+    }
+
+    .panel.accent {
+      border-color: var(--line-strong);
+      background: linear-gradient(180deg, rgba(17, 217, 255, 0.12), rgba(6, 26, 43, 0.78));
+    }
+
+    .panel p,
+    .panel li {
+      color: #c5dce8;
+    }
+
+    .panel p:last-child,
+    .panel ul:last-child,
+    .panel ol:last-child {
+      margin-bottom: 0;
+    }
+
+    .icon {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      color: var(--cyan-2);
+      background: rgba(17, 217, 255, 0.08);
+      font-weight: 900;
+    }
+
+    .callout {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+      margin: 22px 0;
+      padding: 18px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: rgba(17, 217, 255, 0.09);
+    }
+
+    .callout.warning {
+      border-color: rgba(255, 209, 102, 0.38);
+      background: rgba(255, 209, 102, 0.08);
+    }
+
+    .callout.danger {
+      border-color: rgba(255, 107, 107, 0.42);
+      background: rgba(255, 107, 107, 0.08);
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 4px;
+      color: white;
+    }
+
+    .callout p {
+      margin: 0;
+      color: var(--soft);
+    }
+
+    .mini-illustration {
+      margin: 18px 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #041624;
+    }
+
+    .mock-window {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: rgba(3, 19, 34, 0.96);
+    }
+
+    .mock-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: rgba(17, 217, 255, 0.08);
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .mock-tabs {
+      display: flex;
+      gap: 5px;
+      padding: 10px;
+      overflow-x: auto;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .mock-tabs span {
+      flex: 0 0 auto;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: rgba(80, 245, 255, 0.08);
+      color: var(--soft);
+      font-size: 0.78rem;
+    }
+
+    .mock-tabs span:first-child {
+      color: #00131b;
+      background: var(--cyan);
+      font-weight: 900;
+    }
+
+    .mock-body {
+      display: grid;
+      gap: 9px;
+      padding: 14px;
+    }
+
+    .mock-row {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 0.5fr;
+      gap: 9px;
+    }
+
+    .mock-cell {
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(80, 245, 255, 0.08);
+      border: 1px solid rgba(80, 245, 255, 0.08);
+    }
+
+    .workflow {
+      display: grid;
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .workflow-step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(11, 42, 67, 0.62);
+    }
+
+    .workflow-step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius);
+      color: #00131b;
+      background: var(--cyan);
+      font-weight: 900;
+    }
+
+    .workflow-step h3 {
+      margin-top: 2px;
+    }
+
+    .workflow-step p {
+      margin: 0;
+      color: #c5dce8;
+    }
+
+    .feature-map {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .diagram {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: radial-gradient(circle at 50% 28%, rgba(17, 217, 255, 0.16), rgba(3, 19, 34, 0.78) 58%);
+      padding: 18px;
+    }
+
+    .diagram svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .tab-detail {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 18px;
+      padding: 20px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .tab-detail:first-of-type {
+      border-top: 0;
+    }
+
+    .tab-name {
+      color: var(--cyan-2);
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .tag-list li {
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--soft);
+      font-size: 0.78rem;
+      background: rgba(80, 245, 255, 0.07);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(3, 19, 34, 0.72);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 780px;
+    }
+
+    th,
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: white;
+      background: rgba(17, 217, 255, 0.1);
+      font-size: 0.86rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: #c7deea;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--soft);
+      font-weight: 800;
+    }
+
+    .status::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--good);
+      box-shadow: 0 0 14px rgba(77, 230, 157, 0.6);
+    }
+
+    .status.warn::before {
+      background: var(--warn);
+      box-shadow: 0 0 14px rgba(255, 209, 102, 0.56);
+    }
+
+    .status.danger::before {
+      background: var(--danger);
+      box-shadow: 0 0 14px rgba(255, 107, 107, 0.56);
+    }
+
+    .kbd-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .footer {
+      width: min(var(--max), 100%);
+      margin: 0 auto;
+      padding: 34px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 520ms ease, transform 520ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mobile-top {
+      display: none;
+    }
+
+    @keyframes slowSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes riseIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes fillBar {
+      from {
+        width: 8%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media (max-width: 1080px) {
+      :root {
+        --sidebar: 278px;
+      }
+
+      .hero-inner,
+      .feature-map,
+      .two-col,
+      .three-col,
+      .four-col {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 430px;
+      }
+
+      .console {
+        left: 0;
+        right: 0;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .layout {
+        display: block;
+      }
+
+      .mobile-top {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(3, 19, 34, 0.96);
+        backdrop-filter: blur(16px);
+      }
+
+      .mobile-top button {
+        min-height: 40px;
+        border: 1px solid var(--line-strong);
+        border-radius: var(--radius);
+        color: var(--ink);
+        background: rgba(17, 217, 255, 0.1);
+        font: inherit;
+        font-weight: 800;
+        padding: 7px 10px;
+      }
+
+      .sidebar {
+        position: fixed;
+        z-index: 30;
+        inset: 0 auto 0 0;
+        width: min(86vw, 330px);
+        transform: translateX(-105%);
+        transition: transform 220ms ease;
+      }
+
+      body.nav-open .sidebar {
+        transform: translateX(0);
+      }
+
+      main {
+        padding: 0 18px 54px;
+      }
+
+      .hero {
+        width: calc(100% + 36px);
+        margin-left: -18px;
+        min-height: auto;
+      }
+
+      .hero-inner {
+        width: min(var(--max), calc(100% - 36px));
+        grid-template-columns: 1fr;
+        padding: 56px 0 36px;
+      }
+
+      .hero-visual {
+        min-height: 340px;
+      }
+
+      .console {
+        top: 36px;
+      }
+
+      .scan-row {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 56px 0;
+      }
+
+      .tab-detail {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .workflow-step {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: clamp(2.2rem, 15vw, 4.2rem);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="mobile-top">
+    <strong>GregOrigin Manual</strong>
+    <button type="button" id="navToggle" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Manual navigation">
+      <div class="brand">
+        <img src="Logo.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+        <div class="brand-mark" style="display:none;">GO</div>
+        <div>
+          <p class="brand-name">GregOrigin</p>
+          <p class="brand-subtitle">Cleaner Suite Pro Manual</p>
+        </div>
+      </div>
+
+      <a class="site-link" href="https://www.gregorigin.com" target="_blank" rel="noopener">www.gregorigin.com</a>
+
+      <p class="nav-title">Manual</p>
+      <ul class="toc">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#quick-start">Quick Start</a></li>
+        <li><a href="#safety-model">Safety Model</a></li>
+        <li><a href="#installation">Install and Launch</a></li>
+        <li><a href="#interface">Interface Map</a></li>
+        <li><a href="#tabs">Feature Tabs</a></li>
+        <li><a href="#cleanup">Cleaner Workflow</a></li>
+        <li><a href="#software">Software Manager</a></li>
+        <li><a href="#startup-services">Startup and Services</a></li>
+        <li><a href="#hardware-defrag">Hardware and Defrag</a></li>
+        <li><a href="#recovery">Recovery Center</a></li>
+        <li><a href="#logs">Audit Logs</a></li>
+        <li><a href="#best-practices">Best Practices</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#glossary">Glossary</a></li>
+      </ul>
+
+      <div class="sidebar-note">
+        Start with Analyze. Review the plan. Keep backups. Run destructive actions only when the audit looks correct.
+      </div>
+    </aside>
+
+    <main>
+      <header class="hero" id="top">
+        <div class="hero-inner">
+          <div>
+            <p class="eyebrow">GregOrigin Cleaner Suite Pro</p>
+            <h1>Windows maintenance with proof before action.</h1>
+            <p class="lead">This manual explains how to use GregOrigin Cleaner Suite Pro to clean temporary files, manage software, repair startup load, tune allowed services, inspect hardware, optimize drives, and recover from changes with audit logs.</p>
+            <div class="hero-actions">
+              <a class="button" href="#quick-start">Start safely</a>
+              <a class="button secondary" href="https://www.gregorigin.com" target="_blank" rel="noopener">Visit GregOrigin</a>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-hidden="true">
+            <div class="orbit"></div>
+            <div class="console">
+              <div class="console-top">
+                <div class="window-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+                <span class="console-label">audit-first maintenance</span>
+              </div>
+              <div class="scan-lines">
+                <div class="scan-row">
+                  <span>dry-run plan</span>
+                  <div class="bar"><span style="width: 96%;"></span></div>
+                  <span>ready</span>
+                </div>
+                <div class="scan-row">
+                  <span>files counted</span>
+                  <div class="bar"><span style="width: 84%;"></span></div>
+                  <span>exact</span>
+                </div>
+                <div class="scan-row">
+                  <span>startup backup</span>
+                  <div class="bar"><span style="width: 72%;"></span></div>
+                  <span>saved</span>
+                </div>
+                <div class="scan-row">
+                  <span>service allowlist</span>
+                  <div class="bar"><span style="width: 88%;"></span></div>
+                  <span>safe</span>
+                </div>
+                <div class="metric-strip">
+                  <div class="metric"><strong>8</strong><span>main tabs</span></div>
+                  <div class="metric"><strong>0</strong><span>silent failures</span></div>
+                  <div class="metric"><strong>1</strong><span>restore path</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="section reveal" id="overview">
+        <div class="section-intro">
+          <h2>Overview</h2>
+          <p>GregOrigin Cleaner Suite Pro is a Windows desktop utility built around transparent maintenance. It is designed to show what will happen, record what did happen, and give you a path back when startup entries or service settings are changed.</p>
+        </div>
+
+        <div class="three-col">
+          <div class="panel accent">
+            <span class="icon">A</span>
+            <h3>Audit before cleanup</h3>
+            <p>Cleaner actions are planned first. The app records targeted files, estimated bytes, selected action types, and any failures that occur during execution.</p>
+          </div>
+          <div class="panel">
+            <span class="icon">R</span>
+            <h3>Recovery built in</h3>
+            <p>Startup and service changes create backups so disabled or deleted items can be restored from inside the app.</p>
+          </div>
+          <div class="panel">
+            <span class="icon">W</span>
+            <h3>Windows-native tooling</h3>
+            <p>Software updates use Winget package IDs. Drive optimization uses Windows defrag/retrim commands. Service control uses Windows service management.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <span class="icon">i</span>
+          <p><strong>What makes this app different</strong> The product favors clarity over mystery. It does not hide destructive work behind vague words like boost or repair. You can inspect the target, run the action, and review the result.</p>
+        </div>
+      </section>
+
+      <section class="section reveal" id="quick-start">
+        <div class="section-intro">
+          <h2>Quick Start</h2>
+          <p>Use this sequence the first time you run the app on a PC. It keeps the early session conservative and makes the audit trail easy to read.</p>
+        </div>
+
+        <div class="workflow">
+          <div class="workflow-step">
+            <div>
+              <h3>Open the app normally</h3>
+              <p>Launch GregOrigin Cleaner Suite Pro. Most viewing and scan actions do not need administrator rights. Actions that change protected areas may ask to restart elevated.</p>
+            </div>
+          </div>
+          <div class="workflow-step">
+            <div>
+              <h3>Analyze before cleaning</h3>
+              <p>Go to <code>Clean</code>, keep the default safe options selected, and click <code>Analyze</code>. Review the log before running cleanup.</p>
+            </div>
+          </div>
+          <div class="workflow-step">
+            <div>
+              <h3>Update software by package ID</h3>
+              <p>Go to <code>Software</code>, click <code>Check Updates</code>, and confirm that the listed package IDs match the apps you expect to update.</p>
+            </div>
+          </div>
+          <div class="workflow-step">
+            <div>
+              <h3>Reduce startup load carefully</h3>
+              <p>Go to <code>Startup</code>, disable only entries you recognize, then use <code>Restore Backups</code> if something should be returned.</p>
+            </div>
+          </div>
+          <div class="workflow-step">
+            <div>
+              <h3>Review results</h3>
+              <p>Open the audit log after cleanup or tuning. Confirm exact files, bytes, commands, exit codes, and any failure messages.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mini-illustration" aria-label="Safe first-run flow">
+          <svg viewBox="0 0 1080 260" role="img" aria-labelledby="flowTitle">
+            <title id="flowTitle">Safe first-run flow: analyze, review, run, audit, recover.</title>
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0" stop-color="#11d9ff"/>
+                <stop offset="1" stop-color="#4de69d"/>
+              </linearGradient>
+            </defs>
+            <rect width="1080" height="260" fill="#041624"/>
+            <g fill="none" stroke="#50f5ff" stroke-opacity="0.32">
+              <path d="M96 130 H984"/>
+              <path d="M281 130 h48 M501 130 h48 M721 130 h48"/>
+            </g>
+            <g font-family="Segoe UI, Arial" text-anchor="middle">
+              <g transform="translate(140 130)">
+                <circle r="54" fill="#082238" stroke="#50f5ff"/>
+                <text y="-5" fill="#ffffff" font-size="18" font-weight="800">Analyze</text>
+                <text y="22" fill="#9bb8c8" font-size="13">dry-run first</text>
+              </g>
+              <g transform="translate(360 130)">
+                <circle r="54" fill="#082238" stroke="#50f5ff"/>
+                <text y="-5" fill="#ffffff" font-size="18" font-weight="800">Review</text>
+                <text y="22" fill="#9bb8c8" font-size="13">targets shown</text>
+              </g>
+              <g transform="translate(580 130)">
+                <circle r="54" fill="#082238" stroke="#50f5ff"/>
+                <text y="-5" fill="#ffffff" font-size="18" font-weight="800">Run</text>
+                <text y="22" fill="#9bb8c8" font-size="13">confirm action</text>
+              </g>
+              <g transform="translate(800 130)">
+                <circle r="54" fill="#082238" stroke="#50f5ff"/>
+                <text y="-5" fill="#ffffff" font-size="18" font-weight="800">Audit</text>
+                <text y="22" fill="#9bb8c8" font-size="13">exit codes</text>
+              </g>
+              <g transform="translate(964 130)">
+                <circle r="54" fill="url(#g1)" stroke="#50f5ff"/>
+                <text y="-5" fill="#00131b" font-size="18" font-weight="900">Recover</text>
+                <text y="22" fill="#00131b" font-size="13" font-weight="700">when needed</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <section class="section reveal" id="safety-model">
+        <div class="section-intro">
+          <h2>Safety Model</h2>
+          <p>The app separates discovery, decision, execution, and recovery. This prevents a scan from becoming a cleanup without a visible step between them.</p>
+        </div>
+
+        <div class="feature-map">
+          <div class="panel">
+            <h3>Safety promises</h3>
+            <ul>
+              <li><strong>Dry-run planning:</strong> cleanup builds a plan before deleting selected files.</li>
+              <li><strong>Exact capture:</strong> audit logs include file paths, byte counts, action names, and command results.</li>
+              <li><strong>Failure visibility:</strong> failed deletes, failed commands, and non-zero exit codes are shown.</li>
+              <li><strong>Recovery paths:</strong> startup and service changes create restorable backups.</li>
+              <li><strong>Package precision:</strong> Winget commands use package IDs instead of only display names.</li>
+            </ul>
+          </div>
+
+          <div class="diagram" aria-label="Safety model diagram">
+            <svg viewBox="0 0 680 440" role="img" aria-labelledby="safetyTitle">
+              <title id="safetyTitle">Four-part safety model.</title>
+              <rect width="680" height="440" rx="8" fill="#041624"/>
+              <g transform="translate(50 56)" font-family="Segoe UI, Arial">
+                <rect width="250" height="92" rx="8" fill="#082238" stroke="#50f5ff" stroke-opacity="0.55"/>
+                <text x="24" y="36" fill="#ffffff" font-size="23" font-weight="800">1. Discover</text>
+                <text x="24" y="64" fill="#9bb8c8" font-size="15">Scan files, apps, services, drives</text>
+              </g>
+              <g transform="translate(380 56)" font-family="Segoe UI, Arial">
+                <rect width="250" height="92" rx="8" fill="#082238" stroke="#50f5ff" stroke-opacity="0.55"/>
+                <text x="24" y="36" fill="#ffffff" font-size="23" font-weight="800">2. Decide</text>
+                <text x="24" y="64" fill="#9bb8c8" font-size="15">Review plan and confirm scope</text>
+              </g>
+              <g transform="translate(50 272)" font-family="Segoe UI, Arial">
+                <rect width="250" height="92" rx="8" fill="#082238" stroke="#50f5ff" stroke-opacity="0.55"/>
+                <text x="24" y="36" fill="#ffffff" font-size="23" font-weight="800">4. Recover</text>
+                <text x="24" y="64" fill="#9bb8c8" font-size="15">Restore startup and service backups</text>
+              </g>
+              <g transform="translate(380 272)" font-family="Segoe UI, Arial">
+                <rect width="250" height="92" rx="8" fill="#082238" stroke="#50f5ff" stroke-opacity="0.55"/>
+                <text x="24" y="36" fill="#ffffff" font-size="23" font-weight="800">3. Execute</text>
+                <text x="24" y="64" fill="#9bb8c8" font-size="15">Run commands and record exits</text>
+              </g>
+              <path d="M300 102 H380 M505 148 V272 M380 318 H300 M175 272 V148" fill="none" stroke="#11d9ff" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="340" cy="102" r="5" fill="#11d9ff"/>
+              <circle cx="505" cy="210" r="5" fill="#11d9ff"/>
+              <circle cx="340" cy="318" r="5" fill="#11d9ff"/>
+              <circle cx="175" cy="210" r="5" fill="#11d9ff"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="callout warning">
+          <span class="icon">!</span>
+          <p><strong>Administrator rights</strong> Some operations need elevation because they touch system locations, services, Windows Update cache, Volume Shadow Copy, or drive optimization. The app can prompt for an elevated restart when needed.</p>
+        </div>
+      </section>
+
+      <section class="section reveal" id="installation">
+        <div class="section-intro">
+          <h2>Install and Launch</h2>
+          <p>Use the published EXE on Windows 11 or supported Windows 10 machines. The app is designed to launch as a normal user and elevate only when the selected task requires it.</p>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h3>First launch checklist</h3>
+            <ul>
+              <li>Download the app from a trusted GregOrigin source.</li>
+              <li>Keep the EXE in a permanent folder before creating shortcuts.</li>
+              <li>Open the app normally first.</li>
+              <li>Use <code>Analyze</code> before <code>Run Cleaner</code>.</li>
+              <li>Review audit logs after any destructive operation.</li>
+            </ul>
+          </div>
+
+          <div class="panel accent">
+            <h3>Where app data is stored</h3>
+            <p>The app stores settings, audit logs, and recovery backups under its application data location. These local files support restore workflows and troubleshooting.</p>
+            <div class="kbd-line">
+              <kbd>settings.json</kbd>
+              <kbd>audit logs</kbd>
+              <kbd>startup backups</kbd>
+              <kbd>service backups</kbd>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <span class="icon">S</span>
+          <p><strong>Smart App Control and reputation</strong> New Windows 11 systems can be strict with unknown or unsigned executables. Use official distribution, code signing, and consistent download locations for the smoothest launch experience.</p>
+        </div>
+      </section>
+
+      <section class="section reveal" id="interface">
+        <div class="section-intro">
+          <h2>Interface Map</h2>
+          <p>The main window uses tabs. Each tab has one job: view the target, select an action, then read status and logs before moving on.</p>
+        </div>
+
+        <div class="mock-window" aria-label="Illustrated GregOrigin Cleaner Suite window">
+          <div class="mock-header">
+            <span>GregOrigin Cleaner Suite Pro</span>
+            <span>gregorigin.com</span>
+          </div>
+          <div class="mock-tabs">
+            <span>Uninstall</span>
+            <span>Clean</span>
+            <span>Software</span>
+            <span>Startup</span>
+            <span>Optimize</span>
+            <span>Hardware</span>
+            <span>Defrag</span>
+            <span>Options</span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-row"><span class="mock-cell"></span><span class="mock-cell"></span><span class="mock-cell"></span></div>
+            <div class="mock-row"><span class="mock-cell"></span><span class="mock-cell"></span><span class="mock-cell"></span></div>
+            <div class="mock-row"><span class="mock-cell"></span><span class="mock-cell"></span><span class="mock-cell"></span></div>
+            <div class="mock-row"><span class="mock-cell"></span><span class="mock-cell"></span><span class="mock-cell"></span></div>
+          </div>
+        </div>
+
+        <div class="four-col" style="margin-top: 18px;">
+          <div class="panel"><h3>Header</h3><p>Branding, theme toggle, and GregOrigin website access.</p></div>
+          <div class="panel"><h3>Tab bar</h3><p>Primary navigation for app modules.</p></div>
+          <div class="panel"><h3>Work area</h3><p>Lists, logs, checkboxes, and action buttons.</p></div>
+          <div class="panel"><h3>Status line</h3><p>Progress messages, readiness state, and failures.</p></div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="tabs">
+        <div class="section-intro">
+          <h2>Feature Tabs</h2>
+          <p>Each tab is scoped to a specific maintenance task. The table below explains when to use each area and what to verify before taking action.</p>
+        </div>
+
+        <div class="tab-detail">
+          <div class="tab-name">Uninstall</div>
+          <div>
+            <h3>Remove installed desktop applications</h3>
+            <p>Search installed apps, select one or more entries, and run the app's uninstall command. Deep scrub can be used after ordinary uninstall steps, but review prompts carefully.</p>
+            <ul class="tag-list"><li>app inventory</li><li>uninstall string parsing</li><li>deep remnants</li></ul>
+          </div>
+        </div>
+
+        <div class="tab-detail">
+          <div class="tab-name">Clean</div>
+          <div>
+            <h3>Analyze and delete selected temporary data</h3>
+            <p>Targets include Windows temp, user temp, Recycle Bin, selected browser caches, Windows Update cache, old restore points, and SQLite browser data when explicitly selected.</p>
+            <ul class="tag-list"><li>dry-run</li><li>audit log</li><li>byte count</li><li>failures shown</li></ul>
+          </div>
+        </div>
+
+        <div class="tab-detail">
+          <div class="tab-name">Software</div>
+          <div>
+            <h3>Check, install, and update software through Winget</h3>
+            <p>Use Winget package IDs to avoid ambiguity. Review the package name, ID, current version, available version, and source before updating.</p>
+            <ul class="tag-list"><li>package IDs</li><li>update all</li><li>install search</li><li>exit codes</li></ul>
+          </div>
+        </div>
+
+        <div class="tab-detail">
+          <div class="tab-name">Startup</div>
+          <div>
+            <h3>Enable, disable, delete, and restore startup entries</h3>
+            <p>Startup entries can come from registry Run keys, RunOnce keys, startup folder shortcuts, and scheduled tasks. The app preserves registry value kinds and keeps restore data.</p>
+            <ul class="tag-list"><li>registry kinds</li><li>scheduled tasks</li><li>shortcut entries</li><li>restore backups</li></ul>
+          </div>
+        </div>
+
+        <div class="tab-detail">
+          <div class="tab-name">Optimize</div>
+          <div>
+            <h3>Tune selected allowlisted services and run network refresh</h3>
+            <p>Service disable actions are limited to curated entries. The list shows service name, display name, current status, startup type, safe default, and allowlist reason.</p>
+            <ul class="tag-list"><li>curated allowlist</li><li>restore backup</li><li>DNS flush</li><li>service status</li></ul>
+          </div>
+        </div>
+
+        <div class="tab-detail">
+          <div class="tab-name">Hardware</div>
+          <div>
+            <h3>Read system telemetry and storage health status</h3>
+            <p>Review CPU, RAM, GPU, operating system, drive model, and WMI drive status. The large file scanner helps find major space users without loading the whole drive into memory.</p>
+            <ul class="tag-list"><li>telemetry</li><li>WMI status</li><li>large files</li><li>storage review</li></ul>
+          </div>
+        </div>
+
+        <div class="tab-detail">
+          <div class="tab-name">Defrag</div>
+          <div>
+            <h3>Analyze and optimize selected drives</h3>
+            <p>Use analyze first. SSDs should use TRIM/retrim, while spinning hard drives can use defrag. The action can be cancelled, and command output is logged.</p>
+            <ul class="tag-list"><li>analyze</li><li>TRIM</li><li>defrag</li><li>cancel</li></ul>
+          </div>
+        </div>
+
+        <div class="tab-detail">
+          <div class="tab-name">Options</div>
+          <div>
+            <h3>Theme, confirmation behavior, and app information</h3>
+            <p>Toggle theme from the header, review the safety disclaimer, and control whether advanced confirmation prompts are shown.</p>
+            <ul class="tag-list"><li>theme</li><li>confirmations</li><li>about</li><li>disclaimer</li></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="cleanup">
+        <div class="section-intro">
+          <h2>Cleaner Workflow</h2>
+          <p>The Cleaner tab is the most destructive area because it deletes files. Treat it as a three-step process: choose targets, analyze the dry-run, then execute only what you understand.</p>
+        </div>
+
+        <div class="two-col">
+          <div class="panel accent">
+            <h3>Default safer targets</h3>
+            <ul>
+              <li><code>Windows Temp</code> removes eligible system temporary files.</li>
+              <li><code>User Temp</code> removes temporary files for the current user.</li>
+              <li><code>Edge Cache</code> and <code>Chrome Cache</code> target browser cache data.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Advanced targets</h3>
+            <ul>
+              <li><code>Recycle Bin</code> permanently clears deleted files.</li>
+              <li><code>Browser Cookies/History</code> modifies browser SQLite data.</li>
+              <li><code>WinUpdate Cache</code> may require administrator rights.</li>
+              <li><code>Old System Restores</code> removes older restore points.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout danger">
+          <span class="icon">!</span>
+          <p><strong>Browser SQLite cleanup</strong> Close browsers before cleaning browser cookies or history. Open browser processes can lock databases, which will appear as failures in the log.</p>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>What to check</th>
+                <th>Expected result</th>
+                <th>Recovery note</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Analyze</td>
+                <td>Selected targets, file list, byte estimate</td>
+                <td>Dry-run plan appears in the log</td>
+                <td>No files are deleted during analysis</td>
+              </tr>
+              <tr>
+                <td>Run Cleaner</td>
+                <td>Confirmation prompt and audit path</td>
+                <td>Files are deleted where Windows allows access</td>
+                <td>Deleted temp files are generally not restored</td>
+              </tr>
+              <tr>
+                <td>Review failures</td>
+                <td>Access denied, locked file, non-zero exit code</td>
+                <td>Failures are visible instead of hidden</td>
+                <td>Close apps or rerun elevated if appropriate</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section reveal" id="software">
+        <div class="section-intro">
+          <h2>Software Manager</h2>
+          <p>The Software tab uses Winget to search, install, and update apps. Package IDs are shown because display names can be duplicated or localized.</p>
+        </div>
+
+        <div class="three-col">
+          <div class="panel">
+            <span class="icon">1</span>
+            <h3>Check Updates</h3>
+            <p>Refresh the list of installed packages with available upgrades. Review name, package ID, current version, available version, and source.</p>
+          </div>
+          <div class="panel">
+            <span class="icon">2</span>
+            <h3>Update Selected</h3>
+            <p>Updates only highlighted rows. This is best for cautious maintenance or when a specific app matters.</p>
+          </div>
+          <div class="panel">
+            <span class="icon">3</span>
+            <h3>Update All</h3>
+            <p>Runs updates for all listed packages. Review the list first because each vendor installer can behave differently.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <span class="icon">ID</span>
+          <p><strong>Package IDs reduce wrong-target risk</strong> The app constructs Winget commands with <code>--id</code> and <code>--exact</code> where appropriate, so updates target the package selected in the grid.</p>
+        </div>
+      </section>
+
+      <section class="section reveal" id="startup-services">
+        <div class="section-intro">
+          <h2>Startup and Services</h2>
+          <p>Startup and service controls can improve boot behavior, but they can also remove useful background helpers. The app backs up before disable or delete operations so mistakes can be corrected.</p>
+        </div>
+
+        <div class="two-col">
+          <div class="panel accent">
+            <h3>Startup workflow</h3>
+            <ol>
+              <li>Click <code>Refresh</code>.</li>
+              <li>Read the command and location.</li>
+              <li>Disable instead of delete when unsure.</li>
+              <li>Use <code>Restore Backups</code> if the entry is needed again.</li>
+            </ol>
+          </div>
+          <div class="panel">
+            <h3>Service workflow</h3>
+            <ol>
+              <li>Review the allowlist reason.</li>
+              <li>Check current status and startup type.</li>
+              <li>Toggle start/stop for temporary testing.</li>
+              <li>Use <code>Set Disabled</code> only for entries you accept.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="mini-illustration" aria-label="Backup and restore model">
+          <svg viewBox="0 0 1000 300" role="img" aria-labelledby="restoreTitle">
+            <title id="restoreTitle">Backup and restore model for startup and services.</title>
+            <rect width="1000" height="300" fill="#041624"/>
+            <g font-family="Segoe UI, Arial">
+              <g transform="translate(70 70)">
+                <rect width="250" height="150" rx="8" fill="#082238" stroke="#50f5ff" stroke-opacity="0.48"/>
+                <text x="26" y="45" fill="#ffffff" font-size="24" font-weight="800">Original state</text>
+                <text x="26" y="82" fill="#9bb8c8" font-size="16">Registry value kind</text>
+                <text x="26" y="112" fill="#9bb8c8" font-size="16">Startup command</text>
+              </g>
+              <g transform="translate(375 70)">
+                <rect width="250" height="150" rx="8" fill="#082238" stroke="#50f5ff" stroke-opacity="0.48"/>
+                <text x="26" y="45" fill="#ffffff" font-size="24" font-weight="800">Backup saved</text>
+                <text x="26" y="82" fill="#9bb8c8" font-size="16">Local restore record</text>
+                <text x="26" y="112" fill="#9bb8c8" font-size="16">Timestamped action</text>
+              </g>
+              <g transform="translate(680 70)">
+                <rect width="250" height="150" rx="8" fill="#082238" stroke="#50f5ff" stroke-opacity="0.48"/>
+                <text x="26" y="45" fill="#ffffff" font-size="24" font-weight="800">Restore later</text>
+                <text x="26" y="82" fill="#9bb8c8" font-size="16">Entry recreated</text>
+                <text x="26" y="112" fill="#9bb8c8" font-size="16">Service startup reset</text>
+              </g>
+            </g>
+            <path d="M320 145 H375 M625 145 H680" fill="none" stroke="#11d9ff" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </section>
+
+      <section class="section reveal" id="hardware-defrag">
+        <div class="section-intro">
+          <h2>Hardware and Defrag</h2>
+          <p>The Hardware tab helps you understand the machine before making changes. The Defrag tab delegates drive optimization to Windows commands and captures output.</p>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h3>Hardware tab</h3>
+            <ul>
+              <li>CPU, RAM, GPU, and OS are shown for quick orientation.</li>
+              <li>Storage Health uses WMI status information.</li>
+              <li>Large File Scanner finds the biggest files on <code>C:\</code>.</li>
+              <li>Use the results to decide whether cleanup or storage migration is needed.</li>
+            </ul>
+          </div>
+
+          <div class="panel accent">
+            <h3>Defrag tab</h3>
+            <ul>
+              <li>Use <code>Analyze Drive</code> before optimization.</li>
+              <li>Use SSD TRIM/retrim for solid-state drives.</li>
+              <li>Use defrag for spinning hard drives.</li>
+              <li>Use <code>Cancel</code> if a run is taking too long.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout warning">
+          <span class="icon">H</span>
+          <p><strong>Health wording</strong> WMI status is useful, but it is not a full manufacturer diagnostic. For critical drives, also use the SSD or HDD vendor's official diagnostic tool.</p>
+        </div>
+      </section>
+
+      <section class="section reveal" id="recovery">
+        <div class="section-intro">
+          <h2>Recovery Center</h2>
+          <p>Recovery is built into the areas that change persistent system behavior. Startup and service actions can be reversed through their restore buttons.</p>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Change type</th>
+                <th>Backup created</th>
+                <th>How to restore</th>
+                <th>Limitations</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Startup registry entry disabled</td>
+                <td><span class="status">Yes</span></td>
+                <td>Startup tab, <code>Restore Backups</code></td>
+                <td>Restore depends on access to the same registry hive.</td>
+              </tr>
+              <tr>
+                <td>Startup folder shortcut deleted</td>
+                <td><span class="status">Yes</span></td>
+                <td>Startup tab, <code>Restore Backups</code></td>
+                <td>Restores the backed-up shortcut file if backup remains available.</td>
+              </tr>
+              <tr>
+                <td>Scheduled task startup disabled</td>
+                <td><span class="status">Yes</span></td>
+                <td>Startup tab, <code>Restore Backups</code></td>
+                <td>May require administrator rights for protected tasks.</td>
+              </tr>
+              <tr>
+                <td>Service startup disabled</td>
+                <td><span class="status">Yes</span></td>
+                <td>Optimize tab, <code>Restore Backups</code></td>
+                <td>Restores startup mode, not third-party app health.</td>
+              </tr>
+              <tr>
+                <td>Temporary files deleted</td>
+                <td><span class="status warn">Audit only</span></td>
+                <td>Use system backups or app caches if available</td>
+                <td>Temp deletion is normally permanent.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section reveal" id="logs">
+        <div class="section-intro">
+          <h2>Audit Logs</h2>
+          <p>Audit logs are the main evidence trail for destructive and system-level work. They help you understand results, reproduce issues, and support a user or client after a maintenance session.</p>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h3>What logs should include</h3>
+            <ul>
+              <li>Timestamp and selected action.</li>
+              <li>Target paths or package IDs.</li>
+              <li>Estimated and actual byte counts where applicable.</li>
+              <li>Process command, arguments, and exit code.</li>
+              <li>Standard output, standard error, and failure messages.</li>
+            </ul>
+          </div>
+
+          <div class="panel accent">
+            <h3>How to read failures</h3>
+            <ul>
+              <li><code>Access denied</code> usually means elevation or ownership is needed.</li>
+              <li><code>File in use</code> means a process still has the file open.</li>
+              <li>Non-zero exit codes mean the Windows command or installer reported a problem.</li>
+              <li>Winget failures often need source refresh, network access, or manual installer handling.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mini-illustration" aria-label="Example audit log">
+          <svg viewBox="0 0 980 360" role="img" aria-labelledby="logTitle">
+            <title id="logTitle">Example audit log output.</title>
+            <rect width="980" height="360" fill="#041624"/>
+            <rect x="40" y="36" width="900" height="288" rx="8" fill="#061a2b" stroke="#50f5ff" stroke-opacity="0.42"/>
+            <g font-family="Consolas, Cascadia Mono, monospace" font-size="18">
+              <text x="70" y="82" fill="#50f5ff">[2026-04-19 10:42:11] CLEANUP DRY-RUN</text>
+              <text x="70" y="124" fill="#c8efff">Target: User Temp</text>
+              <text x="70" y="162" fill="#c8efff">Files planned: 428</text>
+              <text x="70" y="200" fill="#c8efff">Estimated bytes: 184,224,991</text>
+              <text x="70" y="238" fill="#4de69d">Deleted: 421 files</text>
+              <text x="70" y="276" fill="#ffd166">Failed: 7 files locked by running processes</text>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <section class="section reveal" id="best-practices">
+        <div class="section-intro">
+          <h2>Best Practices</h2>
+          <p>Use GregOrigin Cleaner Suite Pro as a controlled maintenance tool. The safest sessions are deliberate, logged, and easy to reverse.</p>
+        </div>
+
+        <div class="three-col">
+          <div class="panel">
+            <span class="icon">Do</span>
+            <h3>Recommended</h3>
+            <ul>
+              <li>Analyze before cleanup.</li>
+              <li>Close browsers before browser cleanup.</li>
+              <li>Update a few apps first on unfamiliar PCs.</li>
+              <li>Disable startup entries before deleting them.</li>
+              <li>Keep audit logs for support.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <span class="icon">No</span>
+            <h3>Avoid</h3>
+            <ul>
+              <li>Do not disable services outside the curated allowlist.</li>
+              <li>Do not clear restore points before major system changes.</li>
+              <li>Do not update every package during urgent work.</li>
+              <li>Do not assume temp deletion can be undone.</li>
+            </ul>
+          </div>
+          <div class="panel accent">
+            <span class="icon">Pro</span>
+            <h3>Technician habit</h3>
+            <ul>
+              <li>Export or keep the audit trail.</li>
+              <li>Record before and after storage totals.</li>
+              <li>Note startup entries disabled for the user.</li>
+              <li>Reboot and verify the machine after tuning.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="troubleshooting">
+        <div class="section-intro">
+          <h2>Troubleshooting</h2>
+          <p>Most failures fall into five categories: permissions, locked files, missing tools, installer behavior, or Windows policy.</p>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Symptom</th>
+                <th>Likely cause</th>
+                <th>Fix</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cleanup reports access denied</td>
+                <td>Protected folder or file ownership</td>
+                <td>Rerun the specific operation elevated if appropriate. Do not force-delete unknown system files.</td>
+              </tr>
+              <tr>
+                <td>Browser files fail to delete</td>
+                <td>Browser or background process is still running</td>
+                <td>Close the browser, wait a few seconds, and run Analyze again.</td>
+              </tr>
+              <tr>
+                <td>Winget update fails</td>
+                <td>Network issue, source issue, installer prompt, or package mismatch</td>
+                <td>Check the package ID, run Winget source update, then retry the selected package.</td>
+              </tr>
+              <tr>
+                <td>Service action is unavailable</td>
+                <td>Service is not in the curated allowlist or requires admin rights</td>
+                <td>Use only allowlisted service actions. Restart elevated if the app asks for it.</td>
+              </tr>
+              <tr>
+                <td>EXE launch is blocked</td>
+                <td>Windows reputation, Smart App Control, Defender, or policy rule</td>
+                <td>Use the official signed build from GregOrigin and review Windows Security event details.</td>
+              </tr>
+              <tr>
+                <td>Drive optimization takes too long</td>
+                <td>Large HDD, busy drive, or background workload</td>
+                <td>Use Cancel, close heavy apps, then analyze again before retrying.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section reveal" id="faq">
+        <div class="section-intro">
+          <h2>FAQ</h2>
+          <p>Short answers for common user questions.</p>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h3>Does Analyze delete files?</h3>
+            <p>No. Analyze builds a plan and estimates the cleanup. Deletion starts only when you run the cleaner.</p>
+          </div>
+          <div class="panel">
+            <h3>Can every cleanup be undone?</h3>
+            <p>No. Startup and service changes have restore paths. Temporary file deletion is usually permanent.</p>
+          </div>
+          <div class="panel">
+            <h3>Why does the app ask for admin rights?</h3>
+            <p>Some Windows folders, services, restore points, update cache actions, and drive optimization commands require elevation.</p>
+          </div>
+          <div class="panel">
+            <h3>Why show package IDs?</h3>
+            <p>Package IDs help target exact Winget packages. Display names alone can be ambiguous.</p>
+          </div>
+          <div class="panel">
+            <h3>Should I disable all startup apps?</h3>
+            <p>No. Disable only entries you recognize and can live without. Security, backup, cloud sync, audio, and device utilities may be important.</p>
+          </div>
+          <div class="panel">
+            <h3>Is WMI status the same as full SMART?</h3>
+            <p>No. It is a Windows-reported storage status. Use vendor diagnostics for critical drive health decisions.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="glossary">
+        <div class="section-intro">
+          <h2>Glossary</h2>
+          <p>Key terms used throughout the app and manual.</p>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Term</th>
+                <th>Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Audit log</td>
+                <td>A record of planned and executed actions, including files, bytes, commands, exit codes, and failures.</td>
+              </tr>
+              <tr>
+                <td>Dry-run</td>
+                <td>A preview operation that calculates what would happen without performing the destructive action.</td>
+              </tr>
+              <tr>
+                <td>Exit code</td>
+                <td>A numeric result from a process. Zero usually means success; non-zero usually means a problem or partial failure.</td>
+              </tr>
+              <tr>
+                <td>Package ID</td>
+                <td>The stable Winget identifier used to target a specific software package.</td>
+              </tr>
+              <tr>
+                <td>Registry value kind</td>
+                <td>The data type of a Windows Registry value, such as string or expandable string. Preserving it helps restore startup entries correctly.</td>
+              </tr>
+              <tr>
+                <td>TRIM</td>
+                <td>An SSD maintenance command that helps the drive manage unused blocks efficiently.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout">
+          <span class="icon">GO</span>
+          <p><strong>GregOrigin support</strong> For product updates, downloads, and contact information, visit <a href="https://www.gregorigin.com" target="_blank" rel="noopener">www.gregorigin.com</a>.</p>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p><strong>GregOrigin Cleaner Suite Pro Manual</strong> | &copy; 2026 GregOrigin. This manual is intended for users and technicians who want transparent, recoverable Windows maintenance.</p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const navToggle = document.getElementById("navToggle");
+    const sidebar = document.getElementById("sidebar");
+    const links = Array.from(document.querySelectorAll(".toc a"));
+    const sections = links
+      .map((link) => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+
+    function setActive(id) {
+      links.forEach((link) => {
+        link.classList.toggle("active", link.getAttribute("href") === "#" + id);
+      });
+    }
+
+    const activeObserver = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) {
+        setActive(visible.target.id);
+      }
+    }, {
+      rootMargin: "-20% 0px -55% 0px",
+      threshold: [0.1, 0.25, 0.5, 0.75]
+    });
+
+    sections.forEach((section) => activeObserver.observe(section));
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+
+    links.forEach((link) => {
+      link.addEventListener("click", () => {
+        document.body.classList.remove("nav-open");
+        if (navToggle) {
+          navToggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
+
+    if (navToggle) {
+      navToggle.addEventListener("click", () => {
+        const isOpen = document.body.classList.toggle("nav-open");
+        navToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        document.body.classList.remove("nav-open");
+        if (navToggle) {
+          navToggle.setAttribute("aria-expanded", "false");
+        }
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!document.body.classList.contains("nav-open")) {
+        return;
+      }
+      const clickedInsideSidebar = sidebar && sidebar.contains(event.target);
+      const clickedToggle = navToggle && navToggle.contains(event.target);
+      if (!clickedInsideSidebar && !clickedToggle) {
+        document.body.classList.remove("nav-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  </script>
+</body>
+</html>

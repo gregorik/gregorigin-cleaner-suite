@@ -1,0 +1,28 @@
+# Build output
+bin/
+obj/
+final-publish/
+publish/
+*.exe
+*.pdb
+*.dll
+*.deps.json
+*.runtimeconfig.json
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+
+# Test and coverage output
+TestResults/
+coverage/
+*.trx
+*.coverage
+*.coveragexml
+
+# Local OS files
+Thumbs.db
+Desktop.ini
+.DS_Store

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="GregOriginSuiteApp.Tests/GregOriginSuiteApp.Tests.csproj" />
+  <Project Path="GregOriginSuiteApp/GregOriginSuiteApp.csproj" />
+</Solution>
