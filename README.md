@@ -6,8 +6,10 @@
 ![Ads](https://img.shields.io/badge/ads-none-2EA44F)
 ![Telemetry](https://img.shields.io/badge/telemetry-none-2EA44F)
 
-<img width="1920" height="1072" alt="GregoCleanerS" src="https://github.com/user-attachments/assets/f3e65009-372e-4162-aa84-d5e06ae5c6fb" />
+<img width="1920" height="1072" alt="GregoCleanerS" src="https://github.com/user-attachments/assets/f3e65009-372e-4162-aa84-d5e06ae5c6fb" /> <br>
 
+
+[Watch it in action](https://www.youtube.com/watch?v=tRDfv7WFEIU)
 
 GregOrigin Cleaner Suite is a transparent Windows 11 maintenance app for people who want practical cleanup, uninstall, update, startup, service, hardware, and disk optimization tools without adware, subscriptions, or hidden background services.
 
