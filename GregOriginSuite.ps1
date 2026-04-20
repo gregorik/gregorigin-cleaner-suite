@@ -89,39 +89,6 @@ Add-Type -AssemblyName System.Drawing
         <!-- MAIN TABS -->
         <TabControl Grid.Row="1" BorderThickness="0" Background="Transparent" Margin="10">
             
-            <!-- TAB 1: UNINSTALLER -->
-            <TabItem Header="Uninstall">
-                <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    
-                    <TextBox Name="SearchBox" Grid.Row="0" Height="35" VerticalContentAlignment="Center" 
-                             Padding="5" Margin="0,0,0,15" BorderBrush="#ADD8E6" BorderThickness="1" 
-                             Text="Search installed apps..."/>
-                    
-                    <ListView Name="AppList" Grid.Row="1" SelectionMode="Extended">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Name" Width="400" DisplayMemberBinding="{Binding DisplayName}"/>
-                                <GridViewColumn Header="Publisher" Width="250" DisplayMemberBinding="{Binding Publisher}"/>
-                                <GridViewColumn Header="Ver" Width="100" DisplayMemberBinding="{Binding DisplayVersion}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    
-                    <DockPanel Grid.Row="2" Margin="0,15,0,0">
-                        <Label Name="StatusLabel" Content="Ready" Foreground="#004E8C" VerticalAlignment="Center"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Name="RefreshBtn" Content="Refresh" Background="#666"/>
-                            <Button Name="UninstallBtn" Content="Uninstall Selected" Background="#C42B1C"/>
-                        </StackPanel>
-                    </DockPanel>
-                </Grid>
-            </TabItem>
-
             <!-- TAB 2: CLEANER -->
             <TabItem Header="Clean">
                 <Grid Margin="30">
@@ -152,38 +119,6 @@ Add-Type -AssemblyName System.Drawing
                         <Button Name="ScanBtn" Content="Analyze" Background="#0078D7"/>
                         <Button Name="CleanBtn" Content="Run Cleaner" Background="#28A745"/>
                     </StackPanel>
-                </Grid>
-            </TabItem>
-
-            <!-- TAB 3: UPDATER -->
-            <TabItem Header="Update">
-                <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    
-                    <TextBlock Grid.Row="0" Text="Powered by Microsoft Winget" FontSize="14" Foreground="#0078D7" Margin="0,0,0,10" HorizontalAlignment="Right"/>
-                    
-                    <ListView Name="UpdateList" Grid.Row="1">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Application" Width="300" DisplayMemberBinding="{Binding Name}"/>
-                                <GridViewColumn Header="Current" Width="150" DisplayMemberBinding="{Binding Current}"/>
-                                <GridViewColumn Header="Newest Available" Width="150" DisplayMemberBinding="{Binding Available}"/>
-                                <GridViewColumn Header="Source" Width="100" DisplayMemberBinding="{Binding Source}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-
-                    <DockPanel Grid.Row="2" Margin="0,15,0,0">
-                        <Label Name="UpdateStatus" Content="Check for updates to begin." Foreground="#004E8C" VerticalAlignment="Center"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Name="CheckUpdateBtn" Content="Check Updates"/>
-                            <Button Name="UpdateAllBtn" Content="Update All" Background="#004E8C"/>
-                        </StackPanel>
-                    </DockPanel>
                 </Grid>
             </TabItem>
 
@@ -229,42 +164,12 @@ $window = [Windows.Markup.XamlReader]::Load($reader)
 
 # --- MAP ELEMENTS ---
 $SiteBtn = $window.FindName("SiteBtn")
-$AppList = $window.FindName("AppList"); $SearchBox = $window.FindName("SearchBox"); $UninstallBtn = $window.FindName("UninstallBtn"); $RefreshBtn = $window.FindName("RefreshBtn"); $StatusLabel = $window.FindName("StatusLabel")
 $LogBox = $window.FindName("LogBox"); $ScanBtn = $window.FindName("ScanBtn"); $CleanBtn = $window.FindName("CleanBtn")
 $chkWinTemp = $window.FindName("chkWinTemp"); $chkUserTemp = $window.FindName("chkUserTemp"); $chkEdge = $window.FindName("chkEdge"); $chkChrome = $window.FindName("chkChrome"); $chkRecycle = $window.FindName("chkRecycle")
-$UpdateList = $window.FindName("UpdateList"); $CheckUpdateBtn = $window.FindName("CheckUpdateBtn"); $UpdateAllBtn = $window.FindName("UpdateAllBtn"); $UpdateStatus = $window.FindName("UpdateStatus")
 $StartupList = $window.FindName("StartupList"); $RefreshStartupBtn = $window.FindName("RefreshStartupBtn"); $ToggleStartupBtn = $window.FindName("ToggleStartupBtn"); $DeleteStartupBtn = $window.FindName("DeleteStartupBtn"); $StartupStatus = $window.FindName("StartupStatus")
 
 # --- GLOBAL EVENTS ---
 $SiteBtn.Add_Click({ Start-Process "https://gregorigin.com" })
-
-# --- UNINSTALLER LOGIC ---
-function Get-InstalledApps {
-    $StatusLabel.Content = "Scanning Registry..."
-    [System.Windows.Forms.Application]::DoEvents()
-    $AppList.Items.Clear()
-    $paths = @("HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*","HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*","HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*")
-    $apps = Get-ItemProperty $paths -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -and $_.UninstallString -and $_.SystemComponent -ne 1 } | Sort-Object DisplayName -Unique
-    foreach ($app in $apps) { $AppList.Items.Add($app) }
-    $StatusLabel.Content = "Found $($AppList.Items.Count) applications."
-}
-$RefreshBtn.Add_Click({ Get-InstalledApps })
-$UninstallBtn.Add_Click({
-    $selected = $AppList.SelectedItems
-    if ($selected.Count -gt 0 -and [System.Windows.MessageBox]::Show("Uninstall $($selected.Count) apps?", "GregOrigin Suite", "YesNo") -eq "Yes") {
-        foreach ($app in $selected) {
-            $StatusLabel.Content = "Removing: $($app.DisplayName)"
-            [System.Windows.Forms.Application]::DoEvents()
-            try {
-                $u = $app.UninstallString
-                if ($u -match "msiexec") { $args = $u -replace "msiexec.exe","" -replace "msiexec",""; Start-Process "msiexec.exe" -ArgumentList "$args /qb" -Wait -NoNewWindow }
-                else { $proc = New-Object System.Diagnostics.ProcessStartInfo; $proc.FileName = "cmd.exe"; $proc.Arguments = "/c `"$u`""; $proc.WindowStyle = "Hidden"; $proc.Verb = "runas"; [System.Diagnostics.Process]::Start($proc).WaitForExit() }
-            } catch {}
-        }
-        Get-InstalledApps
-    }
-})
-$SearchBox.Add_TextChanged({ $AppList.Items.Filter = [Predicate[Object]]{ param($item) return ($item.DisplayName -match $SearchBox.Text) } })
 
 # --- CLEANER LOGIC ---
 function Log-Msg ($msg) { $LogBox.AppendText("$msg`n"); $LogBox.ScrollToEnd() }
@@ -292,46 +197,6 @@ $CleanBtn.Add_Click({
         Log-Msg "Cleaning starts..."; Get-Targets | ForEach-Object { Get-ChildItem $_.Path -Recurse -Force -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue }; 
         if ($chkRecycle.IsChecked) { Clear-RecycleBin -Force -ErrorAction SilentlyContinue; Log-Msg "Recycle Bin Emptied" }
         Log-Msg "System Cleaned."
-    }
-})
-
-# --- WINGET UPDATER LOGIC ---
-$CheckUpdateBtn.Add_Click({
-    $UpdateStatus.Content = "Contacting Winget servers..."
-    $UpdateList.Items.Clear()
-    [System.Windows.Forms.Application]::DoEvents()
-    
-    $proc = New-Object System.Diagnostics.Process
-    $proc.StartInfo.FileName = "winget.exe"
-    $proc.StartInfo.Arguments = "upgrade"
-    $proc.StartInfo.RedirectStandardOutput = $true
-    $proc.StartInfo.UseShellExecute = $false
-    $proc.StartInfo.CreateNoWindow = $true
-    $proc.StartInfo.StandardOutputEncoding = [System.Text.Encoding]::UTF8
-    $proc.Start() | Out-Null
-    $output = $proc.StandardOutput.ReadToEnd()
-    $proc.WaitForExit()
-
-    $lines = $output -split "`n"
-    $foundStart = $false
-    foreach ($line in $lines) {
-        if ($line -match "^Name\s+Id\s+Version") { $foundStart = $true; continue }
-        if (-not $foundStart -or $line -match "^-") { continue }
-        if ([string]::IsNullOrWhiteSpace($line)) { continue }
-        
-        $parts = $line -split "\s{2,}"
-        if ($parts.Count -ge 3) {
-            $item = New-Object PSObject -Property @{ Name = $parts[0]; Current = $parts[2]; Available = $parts[3]; Source = "Winget" }
-            $UpdateList.Items.Add($item)
-        }
-    }
-    $UpdateStatus.Content = "Found $($UpdateList.Items.Count) updates."
-})
-
-$UpdateAllBtn.Add_Click({
-    if ($UpdateList.Items.Count -eq 0) { return }
-    if ([System.Windows.MessageBox]::Show("Launch Winget to update all?", "GregOrigin Suite", "YesNo") -eq "Yes") {
-        Start-Process "winget.exe" -ArgumentList "upgrade --all --include-unknown"
     }
 })
 
@@ -427,6 +292,5 @@ $DeleteStartupBtn.Add_Click({
 })
 
 # --- INIT ---
-Get-InstalledApps
 Get-StartupApps
 $window.ShowDialog() | Out-Null

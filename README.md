@@ -6,12 +6,7 @@
 ![Ads](https://img.shields.io/badge/ads-none-2EA44F)
 ![Telemetry](https://img.shields.io/badge/telemetry-none-2EA44F)
 
-<img width="1920" height="1072" alt="GregoCleanerS" src="https://github.com/user-attachments/assets/f3e65009-372e-4162-aa84-d5e06ae5c6fb" /> <br>
-
-
-[Watch it in action](https://www.youtube.com/watch?v=tRDfv7WFEIU)
-
-GregOrigin Cleaner Suite is a transparent Windows 11 maintenance app for people who want practical cleanup, uninstall, update, startup, service, hardware, and disk optimization tools without adware, subscriptions, or hidden background services.
+GregOrigin Cleaner Suite is a transparent Windows 11 maintenance app for people who want practical cleanup, startup, service, and hardware tools without adware, subscriptions, or hidden background services.
 
 It is built around native Windows tools and readable source code. The app favors preview, audit logs, backups, and allowlists over risky "one-click magic" optimization.
 
@@ -35,8 +30,6 @@ GregOrigin Cleaner Suite takes the opposite approach:
 
 The goal is simple: give Windows users a focused maintenance dashboard that does useful work while staying understandable.
 
-[Updated manual is here.](https://gregorigin.com/Cleaner_Suite/Manual/)
-
 ---
 
 ## Download
@@ -57,16 +50,6 @@ Windows SmartScreen may warn that the app is from an unknown publisher because t
 
 ## What It Can Do
 
-### Bulk Uninstaller
-
-Remove multiple desktop apps from one searchable list.
-
-- Reads installed app entries from standard Windows uninstall registry locations
-- Supports multi-select uninstall batches
-- Builds safer uninstall commands for MSI and common uninstall formats
-- Includes an optional remnant scrub for selected app folders
-- Requests administrator elevation only when the selected action needs it
-
 ### Safe System Cleaner
 
 Preview cleanup targets before deleting files.
@@ -76,15 +59,6 @@ Preview cleanup targets before deleting files.
 - Appends execution results after cleanup
 - Keeps audit logs under `%APPDATA%\GregOriginSuite\Audit`
 - Leaves registry cleanup out by design
-
-### Winget Software Manager
-
-Use Microsoft's package manager from a friendlier dashboard.
-
-- Checks available updates with `winget upgrade`
-- Updates selected packages or all supported packages
-- Searches the Winget repository
-- Installs selected packages from search results
 
 ### Startup Manager
 
@@ -113,16 +87,6 @@ Quickly inspect the machine before doing maintenance.
 - Reads drive health status through WMI
 - Scans `C:\` for the top 50 largest files
 
-### Disk Optimization
-
-Run native Windows drive optimization tools from the app.
-
-- Analyzes fixed drives through `defrag.exe`
-- Optimizes drives with native Windows options
-- Supports SSD retrim
-- Supports optional boot optimization
-- Includes cancellation support for long operations
-
 ---
 
 ## Safety Model
@@ -144,8 +108,7 @@ Some actions still modify the system. Read the on-screen prompts, review cleanup
 
 - Windows 11
 - 64-bit Windows installation
-- Winget installed for software update and install features
-- Administrator rights for uninstall, protected cleanup, startup, service, network reset, and defrag operations
+- Administrator rights for protected cleanup, startup, service, and network reset operations
 
 The app is built with .NET 8 WPF and published as a self-contained Windows executable.
 
@@ -153,11 +116,7 @@ The app is built with .NET 8 WPF and published as a self-contained Windows execu
 
 ## Screenshots
 
-<img width="560" alt="Bulk uninstaller screenshot" src="https://github.com/user-attachments/assets/aadebaf7-6f80-488c-997b-6cdc93308624" />
-
 <img width="489" alt="Cleaner screenshot" src="https://github.com/user-attachments/assets/3dd60f6b-cef6-4926-bf61-a574b5a0c175" />
-
-<img width="686" alt="Winget software manager screenshot" src="https://github.com/user-attachments/assets/e8ea619d-0f8d-40ce-8a53-e259f2d4d7b7" />
 
 ---
 

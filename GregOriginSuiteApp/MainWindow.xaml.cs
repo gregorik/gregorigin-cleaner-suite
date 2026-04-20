@@ -16,41 +16,30 @@ namespace GregOriginSuiteApp
 {
     public partial class MainWindow : Window
     {
-        public ObservableCollection<InstalledApp> InstalledApps { get; } = new();
-        public ObservableCollection<UpdateApp> UpdateApps { get; } = new();
         public ObservableCollection<StartupApp> StartupApps { get; } = new();
         public ObservableCollection<ServiceApp> ServiceApps { get; } = new();
         public ObservableCollection<SmartDrive> SmartDrives { get; } = new();
 
         private readonly IProcessRunner _runner = new ProcessRunner();
-        private readonly InstalledAppService _installedAppService = new();
         private readonly StartupService _startupService = new();
         private readonly HardwareService _hardwareService = new();
         private readonly AppSettings _appSettings;
         private readonly CleanupService _cleanupService;
-        private readonly WingetService _wingetService;
         private readonly ServiceControlService _serviceControlService;
-        private readonly DefragService _defragService;
 
-        private List<InstalledApp> _allInstalledApps = new();
         private bool _isDarkMode;
         private bool _isExitRequested;
         private CleanupPlan? _lastCleanupPlan;
         private CancellationTokenSource? _largeFileScanCts;
-        private CancellationTokenSource? _defragCts;
 
         public MainWindow()
         {
             InitializeComponent();
 
             _cleanupService = new CleanupService(_runner);
-            _wingetService = new WingetService(_runner);
             _serviceControlService = new ServiceControlService(_runner);
-            _defragService = new DefragService(_runner);
             _appSettings = AppSettings.Load();
 
-            AppList.ItemsSource = InstalledApps;
-            UpdateList.ItemsSource = UpdateApps;
             StartupList.ItemsSource = StartupApps;
             ServicesList.ItemsSource = ServiceApps;
             SmartList.ItemsSource = SmartDrives;
@@ -60,8 +49,6 @@ namespace GregOriginSuiteApp
 
             Loaded += async (_, _) =>
             {
-                LoadDefragDrives();
-                await LoadInstalledAppsAsync();
                 await LoadStartupAppsAsync();
                 await LoadServicesAsync();
                 await LoadHardwareTelemetryAsync();
@@ -139,109 +126,6 @@ namespace GregOriginSuiteApp
         private void SiteBtn_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://gregorigin.com") { UseShellExecute = true });
-        }
-
-        private async Task LoadInstalledAppsAsync()
-        {
-            StatusLabel.Content = "Scanning registry...";
-            InstalledApps.Clear();
-            _allInstalledApps = (await _installedAppService.LoadInstalledAppsAsync()).ToList();
-            foreach (var app in _allInstalledApps)
-            {
-                InstalledApps.Add(app);
-            }
-
-            StatusLabel.Content = $"Found {InstalledApps.Count} applications.";
-        }
-
-        private async void RefreshBtn_Click(object sender, RoutedEventArgs e)
-        {
-            await LoadInstalledAppsAsync();
-        }
-
-        private async void UninstallBtn_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedApps = AppList.SelectedItems.Cast<InstalledApp>().ToList();
-            if (selectedApps.Count == 0 || !EnsureAdministrator("Uninstalling applications requires administrator rights."))
-            {
-                return;
-            }
-
-            if (!_appSettings.SkipConfirmations &&
-                MessageBox.Show($"Uninstall {selectedApps.Count} apps?", "GregOrigin Suite", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes)
-            {
-                return;
-            }
-
-            foreach (var app in selectedApps)
-            {
-                StatusLabel.Content = $"Removing: {app.DisplayName}";
-                CommandResult result;
-                try
-                {
-                    result = await _runner.RunAsync(UninstallCommandBuilder.Build(app));
-                }
-                catch (Exception ex)
-                {
-                    StatusLabel.Content = $"{app.DisplayName}: command build failed.";
-                    MessageBox.Show($"{app.DisplayName}: {ex.Message}", "Uninstall failed", MessageBoxButton.OK, MessageBoxImage.Error);
-                    continue;
-                }
-
-                if (!result.Success)
-                {
-                    MessageBox.Show(DescribeCommandFailure(result), $"Uninstall failed: {app.DisplayName}", MessageBoxButton.OK, MessageBoxImage.Error);
-                    continue;
-                }
-
-                if (chkForceScrub.IsChecked == true)
-                {
-                    await ScrubAppRemnantsAsync(app);
-                }
-            }
-
-            await LoadInstalledAppsAsync();
-        }
-
-        private async Task ScrubAppRemnantsAsync(InstalledApp app)
-        {
-            string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string cleanName = new(app.DisplayName.Where(char.IsLetterOrDigit).ToArray());
-            string cleanPub = new(app.Publisher.Where(char.IsLetterOrDigit).ToArray());
-            var targets = new List<CleanupTarget>
-            {
-                new() { Name = $"{app.DisplayName} LocalAppData", Path = Path.Combine(localAppData, cleanName) },
-                new() { Name = $"{app.DisplayName} AppData", Path = Path.Combine(appData, cleanName) }
-            };
-
-            if (!string.IsNullOrWhiteSpace(cleanPub))
-            {
-                targets.Add(new CleanupTarget { Name = $"{app.DisplayName} Publisher LocalAppData", Path = Path.Combine(localAppData, cleanPub, cleanName) });
-                targets.Add(new CleanupTarget { Name = $"{app.DisplayName} Publisher AppData", Path = Path.Combine(appData, cleanPub, cleanName) });
-            }
-
-            CleanupPlan plan = await _cleanupService.BuildPlanForTargetsAsync(targets);
-            CleanupExecutionResult result = await _cleanupService.ExecutePlanAsync(plan);
-            StatusLabel.Content = result.Success
-                ? $"Removed remnants for {app.DisplayName}. Audit: {plan.AuditPath}"
-                : $"Remnant scrub had failures. Audit: {plan.AuditPath}";
-        }
-
-        private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (SearchBox.Text == "Search installed apps...") SearchBox.Text = "";
-        }
-
-        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (SearchBox.Text == "Search installed apps...") return;
-            string query = SearchBox.Text.ToLowerInvariant();
-            InstalledApps.Clear();
-            foreach (var app in _allInstalledApps.Where(a => a.DisplayName.ToLowerInvariant().Contains(query)))
-            {
-                InstalledApps.Add(app);
-            }
         }
 
         private void LogMsg(string msg)
@@ -346,74 +230,6 @@ namespace GregOriginSuiteApp
             foreach (var action in plan.SpecialActions) LogMsg("Special action: " + action);
             foreach (var failure in plan.Failures) LogMsg("PLAN WARNING: " + failure);
             LogMsg("Audit log: " + plan.AuditPath);
-        }
-
-        private async void CheckUpdateBtn_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateStatus.Content = "Contacting Winget servers...";
-            UpdateApps.Clear();
-            CheckUpdateBtn.IsEnabled = false;
-
-            var (apps, result) = await _wingetService.CheckUpdatesAsync();
-            foreach (var app in apps) UpdateApps.Add(app);
-
-            UpdateStatus.Content = result.Success
-                ? $"Found {UpdateApps.Count} updates."
-                : $"Winget failed: {DescribeCommandFailure(result)}";
-            CheckUpdateBtn.IsEnabled = true;
-        }
-
-        private async void UpdateAllBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (UpdateApps.Count == 0) return;
-            if (!_appSettings.SkipConfirmations &&
-                MessageBox.Show("Launch Winget to update all packages?", "GregOrigin Suite", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
-            {
-                return;
-            }
-
-            CommandResult result = await _runner.RunAsync(WingetParser.BuildUpgradeAllCommand());
-            if (!result.Success) MessageBox.Show(DescribeCommandFailure(result), "Winget update failed", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
-        private async void UpdateSelectedBtn_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedApps = UpdateList.SelectedItems.Cast<UpdateApp>().Where(a => !string.IsNullOrWhiteSpace(a.Id)).ToList();
-            if (selectedApps.Count == 0) return;
-
-            if (!_appSettings.SkipConfirmations &&
-                MessageBox.Show($"Launch Winget for {selectedApps.Count} selected package IDs?", "GregOrigin Suite", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
-            {
-                return;
-            }
-
-            foreach (var app in selectedApps)
-            {
-                CommandSpec spec = app.Source == "Search Result" ? WingetParser.BuildInstallCommand(app) : WingetParser.BuildUpgradeCommand(app);
-                CommandResult result = await _runner.RunAsync(spec);
-                if (!result.Success)
-                {
-                    MessageBox.Show(DescribeCommandFailure(result), $"Winget failed: {app.Id}", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-        }
-
-        private async void WingetSearchBtn_Click(object sender, RoutedEventArgs e)
-        {
-            string query = WingetSearchBox.Text;
-            if (string.IsNullOrWhiteSpace(query) || query == "Search apps to install...") return;
-
-            UpdateStatus.Content = "Searching Winget repository...";
-            UpdateApps.Clear();
-            WingetSearchBtn.IsEnabled = false;
-
-            var (apps, result) = await _wingetService.SearchAsync(query);
-            foreach (var app in apps) UpdateApps.Add(app);
-
-            UpdateStatus.Content = result.Success
-                ? $"Found {UpdateApps.Count} results. Select a package ID to install."
-                : $"Winget search failed: {DescribeCommandFailure(result)}";
-            WingetSearchBtn.IsEnabled = true;
         }
 
         private async Task LoadStartupAppsAsync()
@@ -620,79 +436,6 @@ namespace GregOriginSuiteApp
                 _largeFileScanCts.Dispose();
                 _largeFileScanCts = null;
                 ScanLargeFilesBtn.Content = "Scan C:\\ for Top 50 Large Files";
-            }
-        }
-
-        private void LoadDefragDrives()
-        {
-            DefragDriveCombo.Items.Clear();
-            foreach (var drive in _defragService.LoadFixedDrives())
-            {
-                DefragDriveCombo.Items.Add(drive);
-            }
-
-            if (DefragDriveCombo.Items.Count > 0) DefragDriveCombo.SelectedIndex = 0;
-        }
-
-        private void DefragLogMsg(string msg)
-        {
-            DefragLogBox.AppendText($"{msg}{Environment.NewLine}");
-            DefragLogBox.ScrollToEnd();
-        }
-
-        private async void AnalyzeDriveBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (DefragDriveCombo.SelectedItem == null || !EnsureAdministrator("Drive analysis uses defrag.exe and requires administrator rights."))
-            {
-                return;
-            }
-
-            await RunDefragUiAsync(optimize: false);
-        }
-
-        private async void OptimizeDriveBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (DefragDriveCombo.SelectedItem == null || !EnsureAdministrator("Drive optimization requires administrator rights."))
-            {
-                return;
-            }
-
-            await RunDefragUiAsync(optimize: true);
-        }
-
-        private void CancelDefragBtn_Click(object sender, RoutedEventArgs e)
-        {
-            _defragCts?.Cancel();
-        }
-
-        private async Task RunDefragUiAsync(bool optimize)
-        {
-            string drive = DefragDriveCombo.SelectedItem?.ToString() ?? "";
-            DefragLogBox.Clear();
-            AnalyzeDriveBtn.IsEnabled = false;
-            OptimizeDriveBtn.IsEnabled = false;
-            CancelDefragBtn.IsEnabled = true;
-            _defragCts = new CancellationTokenSource();
-            DefragStatus.Content = optimize ? $"Optimizing {drive}..." : $"Analyzing {drive}...";
-
-            try
-            {
-                CommandResult result = optimize
-                    ? await _defragService.OptimizeAsync(drive, chkSsdTrim.IsChecked == true, chkBootDefrag.IsChecked == true, _defragCts.Token)
-                    : await _defragService.AnalyzeAsync(drive, _defragCts.Token);
-
-                if (!string.IsNullOrWhiteSpace(result.StandardOutput)) DefragLogMsg(result.StandardOutput.TrimEnd());
-                if (!string.IsNullOrWhiteSpace(result.StandardError)) DefragLogMsg("ERROR: " + result.StandardError.TrimEnd());
-                DefragStatus.Content = result.Success ? "Defrag command complete." : "Defrag command failed.";
-                if (!result.Success) DefragLogMsg(DescribeCommandFailure(result));
-            }
-            finally
-            {
-                _defragCts.Dispose();
-                _defragCts = null;
-                AnalyzeDriveBtn.IsEnabled = true;
-                OptimizeDriveBtn.IsEnabled = true;
-                CancelDefragBtn.IsEnabled = false;
             }
         }
 

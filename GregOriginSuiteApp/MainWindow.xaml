@@ -178,39 +178,7 @@
         <!-- MAIN TABS -->
         <TabControl Grid.Row="1" BorderThickness="0" Background="Transparent" Margin="10">
             
-            <!-- TAB 1: UNINSTALLER -->
-            <TabItem Header="Uninstall">
-                <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    
-                    <TextBox Name="SearchBox" Grid.Row="0" Height="35" VerticalContentAlignment="Center" 
-                             Padding="5" Margin="0,0,0,10" BorderBrush="{DynamicResource BorderColor}" BorderThickness="1" 
-                             Text="Search installed apps..." GotFocus="SearchBox_GotFocus" TextChanged="SearchBox_TextChanged"/>
-                    
-                    <ListView Name="AppList" Grid.Row="1" SelectionMode="Extended">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Name" Width="380" DisplayMemberBinding="{Binding DisplayName}"/>
-                                <GridViewColumn Header="Publisher" Width="220" DisplayMemberBinding="{Binding Publisher}"/>
-                                <GridViewColumn Header="Ver" Width="100" DisplayMemberBinding="{Binding DisplayVersion}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    
-                    <DockPanel Grid.Row="2" Margin="0,10,0,0">
-                        <Label Name="StatusLabel" Content="Ready" Foreground="{DynamicResource PrimaryColor}" VerticalAlignment="Center"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Name="RefreshBtn" Content="Refresh" Background="#666" Click="RefreshBtn_Click"/>
-                            <CheckBox Name="chkForceScrub" Content="Deep Scrub Remnants" IsChecked="False" VerticalAlignment="Center" Margin="10,0,10,0"/>
-                            <Button Name="UninstallBtn" Content="Uninstall Selected" Background="#C42B1C" Click="UninstallBtn_Click"/>
-                        </StackPanel>
-                    </DockPanel>
-                </Grid>
-            </TabItem>
+            
 
             <!-- TAB 2: CLEANER -->
             <TabItem Header="Clean">
@@ -254,45 +222,7 @@
                 </Grid>
             </TabItem>
 
-            <!-- TAB 3: UPDATE & INSTALL -->
-            <TabItem Header="Software">
-                <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    
-                    <DockPanel Grid.Row="0" Margin="0,0,0,10">
-                        <TextBlock Text="Winget Software Manager" FontSize="20" Foreground="{DynamicResource PrimaryColor}" VerticalAlignment="Center"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <TextBox Name="WingetSearchBox" Width="200" Height="30" VerticalContentAlignment="Center" Margin="0,0,10,0" Padding="5" Text="Search apps to install..."/>
-                            <Button Name="WingetSearchBtn" Content="Search &amp; Install" Background="#0078D7" Click="WingetSearchBtn_Click"/>
-                        </StackPanel>
-                    </DockPanel>
-                    
-                    <ListView Name="UpdateList" Grid.Row="1">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Application" Width="250" DisplayMemberBinding="{Binding Name}"/>
-                                <GridViewColumn Header="Package ID" Width="260" DisplayMemberBinding="{Binding Id}"/>
-                                <GridViewColumn Header="Current" Width="110" DisplayMemberBinding="{Binding Current}"/>
-                                <GridViewColumn Header="Newest Available" Width="120" DisplayMemberBinding="{Binding Available}"/>
-                                <GridViewColumn Header="Source" Width="90" DisplayMemberBinding="{Binding Source}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-
-                    <DockPanel Grid.Row="2" Margin="0,15,0,0">
-                        <Label Name="UpdateStatus" Content="Check for updates to begin." Foreground="{DynamicResource PrimaryColor}" VerticalAlignment="Center"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Name="CheckUpdateBtn" Content="Check Updates" Click="CheckUpdateBtn_Click"/>
-                            <Button Name="UpdateSelectedBtn" Content="Update Selected" Background="#E0A800" Click="UpdateSelectedBtn_Click"/>
-                            <Button Name="UpdateAllBtn" Content="Update All" Background="#28A745" Click="UpdateAllBtn_Click"/>
-                        </StackPanel>
-                    </DockPanel>
-                </Grid>
-            </TabItem>
+            
 
             <!-- TAB 4: STARTUP APPS -->
             <TabItem Header="Startup">
@@ -409,39 +339,7 @@
                 </Grid>
             </TabItem>
 
-            <!-- TAB 7: DEFRAG -->
-            <TabItem Header="Defrag">
-                <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    
-                    <DockPanel Grid.Row="0" Margin="0,0,0,10">
-                        <TextBlock Text="State-of-the-Art Disk Optimization" FontSize="22" Foreground="{DynamicResource PrimaryColor}" VerticalAlignment="Center"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <TextBlock Text="Target Drive: " VerticalAlignment="Center" Foreground="{DynamicResource TextForeground}" Margin="0,0,5,0" />
-                            <ComboBox Name="DefragDriveCombo" Width="70" Margin="0,0,15,0" VerticalContentAlignment="Center" Background="{DynamicResource ListBackground}" Foreground="{DynamicResource TextForeground}" />
-                            <CheckBox Name="chkSsdTrim" Content="SSD TRIM (Retrim)" IsChecked="True" VerticalAlignment="Center" Margin="0,0,15,0"/>
-                            <CheckBox Name="chkBootDefrag" Content="Boot Sector Optimize" IsChecked="False" VerticalAlignment="Center" Margin="0,0,15,0"/>
-                        </StackPanel>
-                    </DockPanel>
-                    
-                    <TextBox Name="DefragLogBox" Grid.Row="1" IsReadOnly="True" 
-                             VerticalScrollBarVisibility="Auto" Background="{DynamicResource ListBackground}" Foreground="{DynamicResource TextForeground}" BorderThickness="0" 
-                             Padding="10" FontFamily="Consolas" Margin="0,0,0,10" />
-
-                    <DockPanel Grid.Row="2" Margin="0,5,0,0">
-                        <Label Name="DefragStatus" Content="Ready" Foreground="{DynamicResource PrimaryColor}" VerticalAlignment="Center"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Name="AnalyzeDriveBtn" Content="Analyze Drive" Background="#0078D7" Click="AnalyzeDriveBtn_Click"/>
-                            <Button Name="OptimizeDriveBtn" Content="Optimize &amp; Defrag" Background="#28A745" Click="OptimizeDriveBtn_Click"/>
-                            <Button Name="CancelDefragBtn" Content="Cancel" Background="#C42B1C" Click="CancelDefragBtn_Click" IsEnabled="False"/>
-                        </StackPanel>
-                    </DockPanel>
-                </Grid>
-            </TabItem>
+            
 
             <!-- TAB 8: SETTINGS -->
             <TabItem Header="Options">
@@ -457,14 +355,14 @@
                     <Border Grid.Row="1" Background="{DynamicResource ListBackground}" Padding="20" CornerRadius="5" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="400">
                         <StackPanel>
                             <CheckBox Name="chkSkipConfirmations" Content="Skip Warning/Confirmation Prompts (Advanced)" Checked="ChkSkipConfirmations_CheckedChanged" Unchecked="ChkSkipConfirmations_CheckedChanged" Margin="0,0,0,15"/>
-                            <TextBlock Text="When enabled, actions like 'Uninstall' or 'Clean' will immediately execute without asking 'Are you sure?'." Foreground="{DynamicResource TextForeground}" Opacity="0.7" FontSize="12" Margin="25,-10,0,20" TextWrapping="Wrap"/>
+                            <TextBlock Text="When enabled, actions like 'Clean' will immediately execute without asking 'Are you sure?'." Foreground="{DynamicResource TextForeground}" Opacity="0.7" FontSize="12" Margin="25,-10,0,20" TextWrapping="Wrap"/>
                             
                             <TextBlock Text="Note: The Light/Dark theme preference is automatically saved when toggled via the header button." Foreground="{DynamicResource TextForeground}" Opacity="0.7" FontSize="12" FontStyle="Italic" Margin="0,0,0,15"/>
 
                             <Separator Margin="0,15,0,15" Background="{DynamicResource BorderColor}" />
 
                             <TextBlock Text="Disclaimer" FontSize="16" Foreground="{DynamicResource PrimaryColor}" Margin="0,0,0,10" FontWeight="SemiBold"/>
-                            <TextBlock Text="The GregOrigin Cleaner Suite Pro modifies startup entries, deletes selected temporary files, and interacts with Microsoft tools such as Winget, VSS, services, and Defrag. Privileged actions prompt for administrator restart when needed. Cleanup writes a dry-run audit before deletion, but advanced tuning features should still be used carefully." Foreground="{DynamicResource TextForeground}" Opacity="0.7" FontSize="12" TextWrapping="Wrap" Margin="0,0,0,20"/>
+                            <TextBlock Text="The GregOrigin Cleaner Suite Pro modifies startup entries, deletes selected temporary files, and interacts with Microsoft tools such as VSS and services. Privileged actions prompt for administrator restart when needed. Cleanup writes a dry-run audit before deletion, but advanced tuning features should still be used carefully." Foreground="{DynamicResource TextForeground}" Opacity="0.7" FontSize="12" TextWrapping="Wrap" Margin="0,0,0,20"/>
 
                             <Separator Margin="0,0,0,15" Background="{DynamicResource BorderColor}" />
 
@@ -478,3 +376,5 @@
         </TabControl>
     </Grid>
 </Window>
+
+
