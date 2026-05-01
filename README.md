@@ -10,6 +10,8 @@ GregOrigin Cleaner Suite is a transparent Windows 11 maintenance app for people 
 
 It is built around native Windows tools and readable source code. The app favors preview, audit logs, backups, and allowlists over risky "one-click magic" optimization.
 
+If you have consulting and/or custom pipeline integration in mind: I offer dedicated architecture consulting. 📬 Please [contact me](https://gregorigin.com/contact.html) or see my [extended portfolio](https://www.gregorigin.com/Portfolio/). 👨‍💻 
+
 [Download for Windows](https://github.com/gregorik/gregorigin-cleaner-suite/releases/latest/download/GregOriginSuiteApp.exe) | [View releases](https://github.com/gregorik/gregorigin-cleaner-suite/releases) | [Read the manual](https://gregorigin.gitbook.io/cleaner-suite/) | [Visit gregorigin.com](https://gregorigin.com)
 
 ---
